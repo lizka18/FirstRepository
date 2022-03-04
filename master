@@ -1,0 +1,61 @@
+import cgi
+form = cgi.FieldStorage() # извлечь данные из формы
+print("Contenttype: text/html") # плюс пустая строка
+html1 = """
+<TITLE>таблица с анкетой</TITLE>
+<meta charset="UTF-8">
+<style>
+.forma{
+background: #ffc0cb;
+text-align: center;
+margin-top: 150px;
+margin-left: 200px;
+margin-right: 200px;
+padding: 20px;
+outline: 3px solid #000; /* Чёрная рамка */
+border: 5px solid #fff; /* Белая рамка */
+}
+table {
+   border-collapse: separate;
+   background: #FFF;
+}
+table th {
+  background: #FFF;
+  font-weight: normal;
+  padding: 10px 15px;
+}
+table td {
+  background: #FFF;
+  border-top: 1px solid #e8edff;
+  padding: 10px 15px;
+}
+
+body{
+background: linear-gradient(135deg, #1C53A3 38%, #de2d73 65%);
+}
+</style>
+<div class="forma">
+<H1>Анкета пользователя</H1>
+<table border =2> <tr>
+"""
+print(html1)
+# печать заголовка таблицы
+ll = ['Фамилия', 'Имя', 'Отчество', 'Статус', 'Полезно', 'Добавить о', 'e-mail', 'Комментарий', 'Вложение']
+for head in ll:
+    ss = '<td>'+head+'</td>'
+    print(ss)
+print('</tr> <tr>')
+data = ['', '', '', '', '', '', '', '', '']; i = 0
+for field in ('sername', 'name', 'patronic', 'status', 'inf', 'language', 'e-mail', 'comment', 'myFile'):
+    if not field in form:
+        data[i] = '(unknown)'
+    else:
+        if not isinstance(form[field], list):
+            data[i] = form[field].value
+        else:
+            values = [x.value for x in form[field]]
+            data[i] = ' и '.join(values)
+    i += 1
+for el in data:
+    print ('<td> %s </td>'% el)
+print('</tr> </table></div>')
